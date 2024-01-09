@@ -4,9 +4,13 @@ import 'package:camsquad/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_stack/image_stack.dart';
+import 'package:get/get.dart';
+import '../../../controllers/home_controller.dart';
 
 class EventListView extends StatelessWidget {
-  const EventListView({super.key});
+   EventListView({super.key});
+
+  final _ctr = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +19,13 @@ class EventListView extends StatelessWidget {
         itemBuilder: (context,index){
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-            margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(40),
               boxShadow: [
                 BoxShadow(
-                  color: AppColor.darkGrayColor.withOpacity(0.25),
+                  color: Colors.black.withOpacity(0.20),
                   blurRadius: 16,
                   spreadRadius: 5,
                   offset: const Offset(0,5)
@@ -36,7 +40,7 @@ class EventListView extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("My Event 01",style: kTextStyle20.copyWith(color: AppColor.t1Color),),
+                        Text("My Event 01",style: kTextStyle18.copyWith(color: AppColor.t1Color),),
                         Text("12 Apr, 12:00 am - 12:30 am",style: kTextStyle14.copyWith(color: AppColor.t2Color),),
                         Row(
                           children: [
@@ -47,10 +51,15 @@ class EventListView extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: Image.asset(AssetData.personImg),
+                    InkWell(
+                      onTap: (){
+                        _ctr.navigateDetails();
+                      },
+                      child: SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: Image.asset(AssetData.personImg),
+                      ),
                     ),
                   ],
                 ),
@@ -75,8 +84,28 @@ class EventListView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 15,),
-                Center(child: Text("Created on : Jan 12, 8.30 am",style: kTextStyle12.copyWith(color: AppColor.t1Color),)),
+                const SizedBox(height: 5,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    Center(child: Text("Created on : Jan 12, 8.30 am",style: kTextStyle12.copyWith(color: AppColor.t1Color),)),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: AppColor.secondaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 3.0),
+                        child: Center(child: SvgPicture.asset(AssetData.icEdit,height: 25,width: 25,)),
+                      )
+                    ),
+                  ],
+                ),
               ],
             ),
           );

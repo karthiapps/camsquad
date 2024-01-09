@@ -7,6 +7,8 @@ class AnimateData {
   static const loginTypingAnimate = "${baseAnimateUrl}login-typing.json";
   static const loginTypingPasswordAnimate = "${baseAnimateUrl}login-typing-password.json";
   static const loginWrongPassword = "${baseAnimateUrl}login-wrong-password.json";
+  static const loading = "${baseAnimateUrl}loading.json";
+  static const splashScreen = "${baseAnimateUrl}splash-screen.json";
 
 
 }

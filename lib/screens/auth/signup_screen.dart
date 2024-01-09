@@ -3,6 +3,7 @@ import 'package:camsquad/theme/app_theme.dart';
 import 'package:camsquad/widgets/common_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../controllers/signup_controller.dart';
 import '../../theme/app_color.dart';
 import '../../widgets/common_textfield.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,9 @@ import 'otp_screen.dart';
 
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
+
+  final _ctr = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,32 +34,50 @@ class SignUpScreen extends StatelessWidget {
               CommonTextField(
                 txt: "Name",
                 textInputType: TextInputType.name,
+                ctr: _ctr.nameCtr,
                 readOnly: false,
               ),
               const SizedBox(height: 15,),
               CommonTextField(
                 txt: "Email",
                 textInputType: TextInputType.emailAddress,
+                ctr: _ctr.emailCtr,
                 readOnly: false,
               ),
               const SizedBox(height: 15,),
               CommonPhoneField(
                 txt: "Phone Number",
                 textInputType: TextInputType.phone,
+                ctr: _ctr.phoneCtr,
                 readOnly: false,
               ),
               const SizedBox(height: 15,),
               CommonTextField(
                 txt: "Date of Birth",
                 textInputType: TextInputType.text,
+                ctr: _ctr.dobCtr,
                 readOnly: true,
+                onTab: (){
+                  _ctr.selectDate(context);
+                },
               ),
               const SizedBox(height: 15,),
-              CommonPasswordField(
-                txt: "Password",
-                textInputType: TextInputType.visiblePassword,
-                readOnly: false,
-                icnSuffix: Icons.remove_red_eye_outlined,
+              Obx(() =>
+               CommonPasswordField(
+                  txt: "Password",
+                  textInputType: TextInputType.visiblePassword,
+                  readOnly: false,
+                 obscureText: _ctr.isVisiblePassword.value,
+                  ctr: _ctr.passwordCtr,
+                  icnSuffix: _ctr.isVisiblePassword.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                  icnSuffixOnTab: (){
+                    if(_ctr.isVisiblePassword.value){
+                      _ctr.isVisiblePassword.value = false;
+                    }else{
+                      _ctr.isVisiblePassword.value = true;
+                    }
+                  },
+                ),
               ),
               const SizedBox(height: 25,),
               PrimaryButton(

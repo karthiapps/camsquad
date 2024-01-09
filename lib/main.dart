@@ -3,6 +3,9 @@ import 'package:camsquad/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
+var kDebugMode = true;
+
 void main() {
   runApp(const MyApp());
 }

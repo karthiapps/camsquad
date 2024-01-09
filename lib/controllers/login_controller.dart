@@ -1,7 +1,15 @@
-import 'package:camsquad/screens/home/home_screen.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
+import '../models/login_model.dart';
+import '../screens/home/custom_bottomview.dart';
+import '../services/auth/auth.dart';
 import '../shared/enum.dart';
 import '../src/animations.dart';
+import 'package:flutter/material.dart';
+import '../utils/shared_preference_local_storage.dart';
+import '../widgets/common_widget.dart';
+import 'home_controller.dart';
+import 'package:dio/dio.dart' as DioApi;
 
 class LoginController extends GetxController{
 
@@ -9,12 +17,28 @@ class LoginController extends GetxController{
 
 
 
-  void signInSubmit(){
-    animatePath.value = AnimateData.loginSuccessAnimate;
-    Future.delayed(const Duration(seconds: 3),(){
-      Get.to(HomeScreen());
-    });
+  final TextEditingController userCtr = TextEditingController(text: "balvannanathan@gmail.com");
+  final TextEditingController passwordCtr = TextEditingController(text: "Balu.1234");
+
+  signInSubmit(BuildContext context) async{
+
+    if (!_isValidate()) {
+      return false;
+    }
+    onLoading();
+    var res =  await AuthService().loginUser(
+      user: userCtr.text.toString(),
+      password: passwordCtr.text.toString(),
+    );
+    if(res){
+      animatePath.value = AnimateData.loginSuccessAnimate;
+      Future.delayed(const Duration(seconds: 2),(){
+        Get.to(() => CustomBottomView());
+      });
+    }
   }
+
+
 
   void updateType(LoginType value){
     if(value == LoginType.typing){
@@ -28,6 +52,24 @@ class LoginController extends GetxController{
     }else{
       animatePath.value = AnimateData.loginIdleAnimate;
     }
+  }
+
+  bool _isValidate() {
+    var user = userCtr.text.toString();
+    var password = passwordCtr.text.toString();
+
+    if (user.isEmpty) {
+      SnackBars.showAlertSnackBar(
+        text: "Email/Phone number is required",
+      );
+      return false;
+    }else if (password.isEmpty) {
+      SnackBars.showAlertSnackBar(
+        text: "Password is required",
+      );
+      return false;
+    }
+    return true;
   }
 
   @override

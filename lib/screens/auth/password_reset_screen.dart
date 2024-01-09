@@ -84,12 +84,17 @@ class PasswordRestScreen extends StatelessWidget {
                      txt: "New Password",
                      textInputType: TextInputType.visiblePassword,
                      readOnly: false,
+                     onTab: (){},
+                     obscureText: true,
+                     icnSuffixOnTab: (){},
                    ),
                    const SizedBox(height: 10,),
                    CommonPasswordField(
                      txt: "Confirm Password",
                      textInputType: TextInputType.visiblePassword,
                      readOnly: false,
+                     obscureText: true,
+                     icnSuffixOnTab: (){},
                    ),
                    const SizedBox(height: 20,),
                    PrimaryButton(
